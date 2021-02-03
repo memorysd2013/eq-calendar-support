@@ -70,7 +70,7 @@ function getWeekday(date) {
  * - date: YYYY/M/D
  * - startDay: 一週的開始日, Sunday:0, Monday:1
  */
-export function getWholeWeekday(date, startDay) {
+function getWholeWeekday(date, startDay) {
   try {
     let arr = []
     for (let i = startDay;i < startDay + 7;i++) {
@@ -121,6 +121,7 @@ function getEmptyTemplate(date = {}) {
         , fullDate = `${year}/${month}/${day}`
       temp = {
         day,
+        today: isToday(fullDate)
         dateInfo: {
           ms: dayjs(fullDate).valueOf(),
           fullDate, year, month, day,
