@@ -121,7 +121,7 @@ function getEmptyTemplate(date = {}) {
         , fullDate = `${year}/${month}/${day}`
       temp = {
         day,
-        today: isToday(fullDate)
+        today: isToday(fullDate),
         dateInfo: {
           ms: dayjs(fullDate).valueOf(),
           fullDate, year, month, day,
