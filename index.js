@@ -1,9 +1,11 @@
 let dayjs = require('dayjs')
   , dayJsExtension = {
-    isToday: require('dayjs/plugin/isToday')
+    isToday: require('dayjs/plugin/isToday'),
+    weekday: require('dayjs/plugin/weekday')
   }
 
 dayjs.extend(dayJsExtension.isToday)
+dayjs.extend(dayJsExtension.weekday)
 
 /**
  * input: 年, 月
@@ -63,6 +65,32 @@ function getWeekday(date) {
 }
 
 /**
+ * 傳入日期與起始日, 回傳該日期一整週的資訊
+ * input:
+ * - date: YYYY/M/D
+ * - startDay: 一週的開始日, Sunday:0, Monday:1
+ */
+export function getWholeWeekday(date, startDay) {
+  try {
+    let arr = []
+    for (let i = startDay;i < startDay + 7;i++) {
+      arr.push({
+        // 讓 weekday 永遠維持在 0 - 6
+        weekday: (i + 7) % 7,
+        fullDate: dayjs(date).weekday(i).format('YYYY/MM/DD'),
+        monthDay: dayjs(date).weekday(i).format('M/D'),
+        monthDayKey: dayjs(date).weekday(i).format('MM_DD'),
+      })
+    }
+    return arr
+  }
+  catch (e) {
+    console.error('dayjsSupport: getWholeWeekday error')
+    console.error(`@params: date: ${date}, startDay: ${startDay}`)
+  }
+}
+
+/**
  * 用 dayjs 的 extend function 檢查是否為今天
  */
 function isToday(date) {
@@ -76,7 +104,7 @@ function isTheSameMonth({ current, target }) {
   return dayjs(current).format('YYYY/MM') === dayjs(target).format('YYYY/MM')
 }
 
-function getTemplate(date = {}) {
+function getEmptyTemplate(date = {}) {
   let year = date.year
     , month = date.month
     , firstWeekday = getFirstDay(year, month)
@@ -112,7 +140,8 @@ module.exports = {
   getTotalDays,
   getWeeksOfMonth,
   getWeekday,
+  getWholeWeekday,
   isToday,
   isTheSameMonth,
-  getTemplate
+  getEmptyTemplate
 }
