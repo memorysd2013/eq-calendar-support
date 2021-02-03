@@ -104,7 +104,22 @@ function isTheSameMonth({ current, target }) {
   return dayjs(current).format('YYYY/MM') === dayjs(target).format('YYYY/MM')
 }
 
-function getEmptyTemplate(date = {}) {
+function getEmptyTemplate(type, date = {}) {
+  switch (type) {
+    case 'Year':
+      return _getYearEmptyTemplate(date)
+    case 'Month':
+      return _getMonthEmptyTemplate(date)
+    case 'Week':
+      return _getWeekEmptyTemplate(date)
+  }
+}
+
+function _getYearEmptyTemplate() {
+  return []
+}
+
+function _getMonthEmptyTemplate(date = {}) {
   let year = date.year
     , month = date.month
     , firstWeekday = getFirstDay(year, month)
@@ -134,6 +149,10 @@ function getEmptyTemplate(date = {}) {
     arr.push(temp)
   }
   return arr
+}
+
+function _getWeekEmptyTemplate() {
+  return []
 }
 
 module.exports = {
