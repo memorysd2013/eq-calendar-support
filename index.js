@@ -74,18 +74,20 @@ function getWholeWeekday(date, startDay) {
   try {
     let arr = []
     for (let i = startDay;i < startDay + 7;i++) {
+      let date = dayjs(date).weekday(i)
+        , ms = date.valueOf()
+        , [year, month, day] = date.format('YYYY/MM/DD').split("/")
       arr.push({
         // 讓 weekday 永遠維持在 0 - 6
         weekday: (i + 7) % 7,
-        fullDate: dayjs(date).weekday(i).format('YYYY/MM/DD'),
-        monthDay: dayjs(date).weekday(i).format('M/D'),
-        monthDayKey: dayjs(date).weekday(i).format('MM_DD'),
+        ms, year, month, day,
+        fullDate: `${year}/${month}/${day}`,
       })
     }
     return arr
   }
   catch (e) {
-    console.error('dayjsSupport: getWholeWeekday error')
+    console.error('dayjsSupport: getWholeWeekday error', e)
     console.error(`@params: date: ${date}, startDay: ${startDay}`)
   }
 }
@@ -104,14 +106,14 @@ function isTheSameMonth({ current, target }) {
   return dayjs(current).format('YYYY/MM') === dayjs(target).format('YYYY/MM')
 }
 
-function getEmptyTemplate(type, date = {}) {
+function getEmptyTemplate(type, date = {}, options) {
   switch (type) {
     case 'Year':
       return _getYearEmptyTemplate(date)
     case 'Month':
       return _getMonthEmptyTemplate(date)
     case 'Week':
-      return _getWeekEmptyTemplate(date)
+      return _getWeekEmptyTemplate(date, options)
   }
 }
 
@@ -151,8 +153,11 @@ function _getMonthEmptyTemplate(date = {}) {
   return arr
 }
 
-function _getWeekEmptyTemplate() {
-  return []
+function _getWeekEmptyTemplate(date = {}, options = {}) {
+  let { year, month, day } = date
+    , { weekStartAt } = options
+
+  return getWholeWeekday(`${year}-${month}-${day}`, weekStartAt || 0)
 }
 
 module.exports = {
