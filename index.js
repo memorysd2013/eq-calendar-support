@@ -114,6 +114,8 @@ function getEmptyTemplate(type, date = {}, options) {
       return _getMonthEmptyTemplate(date)
     case 'Week':
       return _getWeekEmptyTemplate(date, options)
+    case 'Day':
+      return _getDayEmptyTemplate(date, options)
   }
 }
 
@@ -158,6 +160,13 @@ function _getWeekEmptyTemplate(date = {}, options = {}) {
     , { weekStartAt } = options
 
   return getWholeWeekday(`${year}-${month}-${day}`, weekStartAt || 0)
+}
+
+function _getDayEmptyTemplate(date = {}, options = {}) {
+  let { year, month, day } = date
+  console.log({ year, month, day })
+
+  return []
 }
 
 module.exports = {
