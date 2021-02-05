@@ -74,9 +74,9 @@ function getWholeWeekday(date, startDay) {
   try {
     let arr = []
     for (let i = startDay;i < startDay + 7;i++) {
-      let date = dayjs(date).weekday(i)
-        , ms = date.valueOf()
-        , [year, month, day] = date.format('YYYY/MM/DD').split("/")
+      let _date = dayjs(date).weekday(i)
+        , ms = _date.valueOf()
+        , [year, month, day] = _date.format('YYYY/MM/DD').split("/")
       arr.push({
         // 讓 weekday 永遠維持在 0 - 6
         weekday: (i + 7) % 7,
