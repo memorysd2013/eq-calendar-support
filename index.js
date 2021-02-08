@@ -162,11 +162,21 @@ function _getWeekEmptyTemplate(date = {}, options = {}) {
   return getWholeWeekday(`${year}-${month}-${day}`, weekStartAt || 0)
 }
 
-function _getDayEmptyTemplate(date = {}, options = {}) {
-  let { year, month, day } = date
-  console.log({ year, month, day })
+function _getDayEmptyTemplate(time = { startHour: 0, endHour: 23 }, options = {}) {
+  let { startHour, endHour } = time
+    , clockFormat = c => c < 10 ? `0${c}` : c
+    , range = Math.abs(endHour - startHour)
+    , arr = []
 
-  return []
+  for (let i = startHour;i <= endHour;i++) {
+    let hourTemp = {
+      clock: `${clockFormat(i)}:00`,
+      hourContent: { value: i }
+    }
+    arr.push(hourTemp)
+  }
+
+  return arr
 }
 
 module.exports = {
