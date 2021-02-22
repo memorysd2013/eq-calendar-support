@@ -114,6 +114,8 @@ function getEmptyTemplate(type, date = {}, options) {
       return _getMonthEmptyTemplate(date)
     case 'Week':
       return _getWeekEmptyTemplate(date, options)
+    case 'Day':
+      return _getDayEmptyTemplate(date, options)
   }
 }
 
@@ -158,6 +160,23 @@ function _getWeekEmptyTemplate(date = {}, options = {}) {
     , { weekStartAt } = options
 
   return getWholeWeekday(`${year}-${month}-${day}`, weekStartAt || 0)
+}
+
+function _getDayEmptyTemplate(time = { startHour: 0, endHour: 23 }, options = {}) {
+  let { startHour, endHour } = time
+    , clockFormat = c => c < 10 ? `0${c}` : c
+    , range = Math.abs(endHour - startHour)
+    , arr = []
+
+  for (let i = startHour;i <= endHour;i++) {
+    let hourTemp = {
+      clock: `${clockFormat(i)}:00`,
+      hourContent: { value: i }
+    }
+    arr.push(hourTemp)
+  }
+
+  return arr
 }
 
 module.exports = {
