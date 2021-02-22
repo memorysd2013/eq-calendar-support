@@ -171,7 +171,7 @@ function _getDayEmptyTemplate(time = { startHour: 0, endHour: 23 }, options = {}
   for (let i = startHour;i <= endHour;i++) {
     let hourTemp = {
       clock: `${clockFormat(i)}:00`,
-      hourContent: { value: i }
+      content: []
     }
     arr.push(hourTemp)
   }
