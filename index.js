@@ -141,7 +141,7 @@ function _getMonthEmptyTemplate(date = {}) {
       temp = {
         day,
         dayStyle: {
-          cursor: day ? 'pointer' : 'not-allowed'
+          cursor: 'pointer'
         },
         today: isToday(fullDate),
         dateInfo: {
