@@ -140,6 +140,9 @@ function _getMonthEmptyTemplate(date = {}) {
         , fullDate = `${year}/${month}/${day}`
       temp = {
         day,
+        dayStyle: {
+          cursor: day ? 'pointer' : 'not-allowed'
+        },
         today: isToday(fullDate),
         dateInfo: {
           ms: dayjs(fullDate).valueOf(),
