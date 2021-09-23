@@ -143,6 +143,7 @@ function _getMonthEmptyTemplate(date = {}) {
         dayStyle: {
           cursor: 'pointer'
         },
+        dayCustomClass: '',
         today: isToday(fullDate),
         dateInfo: {
           ms: dayjs(fullDate).valueOf(),
