@@ -51,6 +51,39 @@ function getWeeksOfMonth(year, month) {
 }
 
 /**
+ * input: timestamp
+ * @return: 該日位於當月的第幾週 (以日為第一天算起)
+ */
+function getWeekIndexOfMonth(timestamp) {
+  const map = {
+    end: d => {
+      if (d <= 7) return 1
+      else if (d >= 8 && d <= 14) return 2
+      else return 0
+    },
+    start: d => {
+      if (d >= 2 && d <= 8) return 2
+      else if (d >= 9 && d <= 15) return 3
+      else if (d >= 16 && d <= 22) return 4
+      else if (d >= 23 && d <= 29) return 5
+      else if (d >= 30) return 6
+      else return 0
+    }
+  }
+  try {
+    let date = Number(dayjs(timestamp).format('DD'))
+
+    return date <= 7
+      ? map.end(Number(dayjs(timestamp).endOf('week').format('DD')))
+      : map.start(Number(dayjs(timestamp).startOf('week').format('DD')))
+  } catch (e) {
+    console.error('dayjsSupport: getWeekIndexOfMonth error')
+    console.error(`@params: timestamp: ${timestamp}`)
+    console.error(e)
+  }
+}
+
+/**
  * 取得特定日期的 weekday
  * return 0 - 6 = Sunday:0, Monday:1
  */
@@ -138,6 +171,7 @@ function _getMonthEmptyTemplate(date = {}) {
     if (i >= firstWeekday && i < (totalDays + firstWeekday)) {
       let day = i - firstWeekday + 1
         , fullDate = `${year}/${month}/${day}`
+        , ms = dayjs(fullDate).valueOf()
       temp = {
         day,
         dayStyle: {
@@ -146,8 +180,8 @@ function _getMonthEmptyTemplate(date = {}) {
         dayCustomClass: '',
         today: isToday(fullDate),
         dateInfo: {
-          ms: dayjs(fullDate).valueOf(),
-          fullDate, year, month, day, week: i + 1,
+          ms, fullDate, year, month, day, 
+          week: getWeekIndexOfMonth(ms),
           weekday: getWeekday(fullDate)
         },
         content: []
@@ -188,6 +222,7 @@ module.exports = {
   getTotalDays,
   getWeeksOfMonth,
   getWeekday,
+  getWeekIndexOfMonth,
   getWholeWeekday,
   isToday,
   isTheSameMonth,
