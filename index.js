@@ -147,7 +147,7 @@ function _getMonthEmptyTemplate(date = {}) {
         today: isToday(fullDate),
         dateInfo: {
           ms: dayjs(fullDate).valueOf(),
-          fullDate, year, month, day,
+          fullDate, year, month, day, week: i + 1,
           weekday: getWeekday(fullDate)
         },
         content: []
